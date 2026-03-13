@@ -147,9 +147,14 @@ export default function App() {
               {grandTotal > 0 ? fmt(grandTotal) : "—"}
             </div>
             {grandTotal > 0 && (
-              <div style={{ fontSize: 11, color: "#aaa", marginTop: 4 }}>
-                {fmt(totalMeet)} mtg · {fmt(totalSAL)} SAL · {fmt(totalSQO)} SQO
-              </div>
+              <>
+                <div style={{ fontSize: 14, color: "#fff", marginTop: 6, fontWeight: 500 }}>
+                  {fmt(BASE_SALARY + grandTotal)} total comp
+                </div>
+                <div style={{ fontSize: 11, color: "#aaa", marginTop: 4 }}>
+                  {fmt(BASE_SALARY)} base · {fmt(totalMeet)} mtg · {fmt(totalSAL)} SAL · {fmt(totalSQO)} SQO
+                </div>
+              </>
             )}
           </div>
         </div>
