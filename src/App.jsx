@@ -302,7 +302,7 @@ export default function App() {
                   ].map(r => (
                     <div key={r.label} style={{ marginBottom: 16 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5 }}>
-                        <span onClick={() => setShowPayTable(r.label)} style={{ fontSize: 13, color: "#6706CE", cursor: "pointer", textDecoration: "underline", textDecorationStyle: "dotted", textUnderlineOffset: 3 }}>{r.label}</span>
+                        <span style={{ fontSize: 13, color: "#6B7280" }}>{r.label}</span>
                         <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(r.earned)}</span>
                       </div>
                       <div style={{ height: 4, background: "#F3F4F6", borderRadius: 2, marginBottom: 4 }}>
@@ -312,19 +312,19 @@ export default function App() {
                       {r.note && <div style={{ fontSize: 11, color: "#6B7280", fontStyle: "italic", marginTop: 2 }}>{r.note}</div>}
                     </div>
                   ))}
-                  <div style={{ borderTop: "1px solid #F3F4F6", paddingTop: 12, marginBottom: 12 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                      <span style={{ fontSize: 13, color: "#6B7280" }}>Monthly subtotal</span>
-                      <span style={{ fontSize: 22, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(monthTotal)}</span>
+                  <div style={{ background: "linear-gradient(135deg, rgba(103,6,206,0.06) 0%, rgba(163,81,251,0.06) 100%)", border: "1px solid rgba(103,6,206,0.15)", borderRadius: 10, padding: "14px 16px", display: "flex", gap: 24 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 11, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500, marginBottom: 4 }}>MONTHLY</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "Ubuntu Mono, monospace", color: "#111", lineHeight: 1 }}>
+                        {fmt(monthTotal)}
+                      </div>
                     </div>
-                  </div>
-                  <div style={{ background: "linear-gradient(135deg, rgba(103,6,206,0.06) 0%, rgba(163,81,251,0.06) 100%)", border: "1px solid rgba(103,6,206,0.15)", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
-                    <div style={{ fontSize: 11, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500, marginBottom: 4 }}>ESTIMATED ANNUAL PAY</div>
-                    <div style={{ fontSize: 28, fontWeight: 800, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE", lineHeight: 1 }}>
-                      {fmt(BASE_SALARY + (monthTotal * 12) + (sqo ? sqo.earned * 4 : 0))}
-                    </div>
-                    <div style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}>
-                      {fmt(BASE_SALARY)} base + {fmt(monthTotal * 12)} variable + {fmt(sqo ? sqo.earned * 4 : 0)} SQO
+                    <div style={{ width: 1, background: "rgba(103,6,206,0.15)" }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 11, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500, marginBottom: 4 }}>ESTIMATED ANNUAL PAY</div>
+                      <div style={{ fontSize: 22, fontWeight: 700, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE", lineHeight: 1 }}>
+                        {fmt(BASE_SALARY + (monthTotal * 12) + (sqo ? sqo.earned * 4 : 0))}
+                      </div>
                     </div>
                   </div>
                 </>
