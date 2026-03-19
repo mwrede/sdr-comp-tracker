@@ -52,8 +52,8 @@ function calcSQOs(sqos) {
 
 function fmt(n) { return "$" + Math.round(n).toLocaleString(); }
 function pctColor(p) {
-  if (p > 100) return "#6706CE";
-  if (p >= 75) return "#ca8a04";
+  if (p > 100) return "#16a34a";
+  if (p >= 75) return "#16a34a";
   return "#dc2626";
 }
 
@@ -273,6 +273,15 @@ export default function App() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                       <span style={{ fontSize: 13, color: "#6B7280" }}>Monthly subtotal</span>
                       <span style={{ fontSize: 22, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(monthTotal)}</span>
+                    </div>
+                  </div>
+                  <div style={{ background: "linear-gradient(135deg, rgba(103,6,206,0.06) 0%, rgba(163,81,251,0.06) 100%)", border: "1px solid rgba(103,6,206,0.15)", borderRadius: 10, padding: "14px 16px", marginBottom: 12 }}>
+                    <div style={{ fontSize: 11, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500, marginBottom: 4 }}>ESTIMATED ANNUAL PAY</div>
+                    <div style={{ fontSize: 28, fontWeight: 800, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE", lineHeight: 1 }}>
+                      {fmt(BASE_SALARY + (monthTotal * 12) + (sqo ? sqo.earned * 4 : 0))}
+                    </div>
+                    <div style={{ fontSize: 12, color: "#6B7280", marginTop: 6 }}>
+                      {fmt(BASE_SALARY)} base + {fmt(monthTotal * 12)} variable + {fmt(sqo ? sqo.earned * 4 : 0)} SQO
                     </div>
                   </div>
                   {sqo && (
