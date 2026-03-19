@@ -136,12 +136,17 @@ export default function App() {
       {/* Header */}
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2.5rem" }}>
-          <div>
-            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.02em", color: "#111" }}>SDR COMP</div>
-            <div style={{ fontSize: 12, color: "#9CA3AF", letterSpacing: "0.1em", marginTop: 2 }}>ROBOFLOW · FY27 · FEB 2026 – JAN 2027</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <svg width="44" height="44" viewBox="0 0 48 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z" fill="#6706CE"/>
+            </svg>
+            <div>
+              <div style={{ fontSize: 36, fontWeight: 800, letterSpacing: "-0.02em", color: "#111", lineHeight: 1 }}>SDR COMP</div>
+              <div style={{ fontSize: 12, color: "#6B7280", letterSpacing: "0.1em", marginTop: 4 }}>ROBOFLOW · FY27 · FEB 2026 – JAN 2027</div>
+            </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 12, color: "#9CA3AF", letterSpacing: "0.08em", marginBottom: 4 }}>TOTAL EARNED TO DATE</div>
+            <div style={{ fontSize: 12, color: "#6B7280", letterSpacing: "0.08em", marginBottom: 4 }}>TOTAL EARNED TO DATE</div>
             <div style={{ fontSize: 32, fontWeight: 800, color: grandTotal > 0 ? "#6706CE" : "#d4d4d8", letterSpacing: "-0.02em" }}>
               {grandTotal > 0 ? fmt(grandTotal) : "—"}
             </div>
@@ -150,7 +155,7 @@ export default function App() {
                 <div style={{ fontSize: 15, color: "#111", marginTop: 6, fontWeight: 600 }}>
                   {fmt(BASE_SALARY + grandTotal)} total comp
                 </div>
-                <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: "#6B7280", marginTop: 4 }}>
                   {fmt(BASE_SALARY)} base · {fmt(totalMeet)} mtg · {fmt(totalSAL)} SAL · {fmt(totalSQO)} SQO
                 </div>
               </>
@@ -167,7 +172,7 @@ export default function App() {
               <button key={m} onClick={() => setActiveMonth(m)} style={{
                 padding: "7px 14px", fontSize: 13, fontFamily: "Inter, sans-serif",
                 background: isActive ? "#6706CE" : hasData ? "rgba(103,6,206,0.06)" : "#fff",
-                color: isActive ? "#fff" : hasData ? "#6706CE" : "#9CA3AF",
+                color: isActive ? "#fff" : hasData ? "#6706CE" : "#6B7280",
                 border: isActive ? "none" : `1px solid ${hasData ? "rgba(103,6,206,0.2)" : "#E5E7EB"}`,
                 borderRadius: 6, cursor: "pointer", letterSpacing: "0.02em",
                 fontWeight: isActive ? 600 : 400,
@@ -184,7 +189,7 @@ export default function App() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
           {/* Input card */}
           <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem" }}>
-            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 600 }}>
               {MONTH_LABELS[activeMonth]?.toUpperCase()} · ACTUALS
             </div>
             {[
@@ -222,7 +227,7 @@ export default function App() {
               }}>SAVE MONTH</button>
               <button onClick={() => handleClear(activeMonth)} style={{
                 padding: "10px 16px", fontSize: 13, fontFamily: "Inter, sans-serif",
-                background: "#fff", color: "#9CA3AF", border: "1px solid #E5E7EB",
+                background: "#F3F4F6", color: "#374151", border: "1px solid #D1D5DB",
                 borderRadius: 6, cursor: "pointer", letterSpacing: "0.02em",
                 transition: "all 0.15s",
               }}>CLEAR</button>
@@ -231,7 +236,7 @@ export default function App() {
 
           {/* Results card */}
           <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem" }}>
-            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 600 }}>
               {MONTH_LABELS[activeMonth]?.toUpperCase()} · PAYOUT
             </div>
             {(() => {
@@ -261,7 +266,7 @@ export default function App() {
                       <div style={{ height: 4, background: "#F3F4F6", borderRadius: 2, marginBottom: 4 }}>
                         <div style={{ height: "100%", width: `${Math.min(r.pct, 100)}%`, background: pctColor(r.pct), borderRadius: 2, transition: "width 0.3s" }} />
                       </div>
-                      <div style={{ fontSize: 12, color: "#9CA3AF" }}>{r.detail}</div>
+                      <div style={{ fontSize: 12, color: "#6B7280" }}>{r.detail}</div>
                     </div>
                   ))}
                   <div style={{ borderTop: "1px solid #F3F4F6", paddingTop: 12, marginBottom: 12 }}>
@@ -272,7 +277,7 @@ export default function App() {
                   </div>
                   {sqo && (
                     <div style={{ background: "rgba(103,6,206,0.04)", border: "1px solid rgba(103,6,206,0.12)", borderRadius: 8, padding: "10px 12px" }}>
-                      <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 6, letterSpacing: "0.08em", fontWeight: 500 }}>{qLabel} SQO (QUARTERLY)</div>
+                      <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 6, letterSpacing: "0.08em", fontWeight: 500 }}>{qLabel} SQO (QUARTERLY)</div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                         <span style={{ fontSize: 12, color: "#6B7280" }}>{Math.round(sqo.pct)}% of target (6) · {sqo.mult}x</span>
                         <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE" }}>{fmt(sqo.earned)}</span>
@@ -287,13 +292,13 @@ export default function App() {
 
         {/* Year summary table */}
         <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem", marginTop: 8 }}>
-          <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>FULL YEAR SUMMARY</div>
+          <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 600 }}>FULL YEAR SUMMARY</div>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: "Inter, sans-serif" }}>
               <thead>
                 <tr style={{ borderBottom: "2px solid #F3F4F6" }}>
                   {["Month","Meetings","Attain","SALs","Attain","Monthly","SQO Qtr","Total","Annualized"].map((h,hi) => (
-                    <th key={h+hi} style={{ padding: "8px 8px", textAlign: "right", color: hi===8 ? "#6706CE" : "#9CA3AF", fontWeight: 500, letterSpacing: "0.05em", fontSize: 11 }}>{h}</th>
+                    <th key={h+hi} style={{ padding: "8px 8px", textAlign: "right", color: hi===8 ? "#6706CE" : "#6B7280", fontWeight: 500, letterSpacing: "0.05em", fontSize: 11 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -334,7 +339,7 @@ export default function App() {
               </tbody>
               <tfoot>
                 <tr style={{ borderTop: "2px solid #F3F4F6" }}>
-                  <td colSpan={5} style={{ padding: "10px 8px", fontSize: 12, color: "#9CA3AF", letterSpacing: "0.08em", fontWeight: 500 }}>TOTAL</td>
+                  <td colSpan={5} style={{ padding: "10px 8px", fontSize: 12, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500 }}>TOTAL</td>
                   <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: "#111", fontWeight: 600 }}>{totalMeet + totalSAL > 0 ? fmt(totalMeet + totalSAL) : "—"}</td>
                   <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: "#6706CE", fontWeight: 600 }}>{totalSQO > 0 ? fmt(totalSQO) : "—"}</td>
                   <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", fontSize: 16, fontWeight: 800, color: grandTotal > 0 ? "#6706CE" : "#E5E7EB" }}>{grandTotal > 0 ? fmt(grandTotal) : "—"}</td>
