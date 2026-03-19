@@ -52,9 +52,9 @@ function calcSQOs(sqos) {
 
 function fmt(n) { return "$" + Math.round(n).toLocaleString(); }
 function pctColor(p) {
-  if (p > 100) return "#a78bfa";
+  if (p > 100) return "#6706CE";
   if (p >= 75) return "#ca8a04";
-  return "#ef4444";
+  return "#dc2626";
 }
 
 const EMPTY_MONTH = { meetings: "", sals: "", sqos: "" };
@@ -120,16 +120,16 @@ export default function App() {
   const sqoResult = activeQ ? quarterSQO(activeQ) : null;
 
   return (
-    <div style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif", minHeight: "100vh", background: "#0B0F1A", color: "#E2E4EB", padding: "2rem 1.5rem" }}>
+    <div style={{ fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif", minHeight: "100vh", background: "#F8F8FA", color: "#1a1a1a", padding: "2rem 1.5rem" }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Ubuntu+Mono:wght@400;700&display=swap');
         * { box-sizing: border-box; }
         input[type=number] { -moz-appearance: textfield; }
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #2D2054; border-radius: 2px; }
-        input:focus { border-color: #6706CE !important; box-shadow: 0 0 0 2px rgba(103,6,206,0.2); }
+        ::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 2px; }
+        input:focus { border-color: #6706CE !important; box-shadow: 0 0 0 2px rgba(103,6,206,0.12); }
         button:hover { opacity: 0.9; }
       `}</style>
 
@@ -137,20 +137,20 @@ export default function App() {
       <div style={{ maxWidth: 900, margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2.5rem" }}>
           <div>
-            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.02em", color: "#fff" }}>SDR COMP</div>
-            <div style={{ fontSize: 12, color: "#6B7280", letterSpacing: "0.1em", marginTop: 2 }}>ROBOFLOW · FY27 · FEB 2026 – JAN 2027</div>
+            <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-0.02em", color: "#111" }}>SDR COMP</div>
+            <div style={{ fontSize: 12, color: "#9CA3AF", letterSpacing: "0.1em", marginTop: 2 }}>ROBOFLOW · FY27 · FEB 2026 – JAN 2027</div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 12, color: "#6B7280", letterSpacing: "0.08em", marginBottom: 4 }}>TOTAL EARNED TO DATE</div>
-            <div style={{ fontSize: 32, fontWeight: 800, color: grandTotal > 0 ? "#A351FB" : "#3D4459", letterSpacing: "-0.02em" }}>
+            <div style={{ fontSize: 12, color: "#9CA3AF", letterSpacing: "0.08em", marginBottom: 4 }}>TOTAL EARNED TO DATE</div>
+            <div style={{ fontSize: 32, fontWeight: 800, color: grandTotal > 0 ? "#6706CE" : "#d4d4d8", letterSpacing: "-0.02em" }}>
               {grandTotal > 0 ? fmt(grandTotal) : "—"}
             </div>
             {grandTotal > 0 && (
               <>
-                <div style={{ fontSize: 15, color: "#E2E4EB", marginTop: 6, fontWeight: 500 }}>
+                <div style={{ fontSize: 15, color: "#111", marginTop: 6, fontWeight: 600 }}>
                   {fmt(BASE_SALARY + grandTotal)} total comp
                 </div>
-                <div style={{ fontSize: 12, color: "#6B7280", marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>
                   {fmt(BASE_SALARY)} base · {fmt(totalMeet)} mtg · {fmt(totalSAL)} SAL · {fmt(totalSQO)} SQO
                 </div>
               </>
@@ -166,15 +166,15 @@ export default function App() {
             return (
               <button key={m} onClick={() => setActiveMonth(m)} style={{
                 padding: "7px 14px", fontSize: 13, fontFamily: "Inter, sans-serif",
-                background: isActive ? "#6706CE" : hasData ? "rgba(103,6,206,0.12)" : "transparent",
-                color: isActive ? "#fff" : hasData ? "#A351FB" : "#4B5068",
-                border: isActive ? "none" : `1px solid ${hasData ? "rgba(103,6,206,0.3)" : "#1E2433"}`,
+                background: isActive ? "#6706CE" : hasData ? "rgba(103,6,206,0.06)" : "#fff",
+                color: isActive ? "#fff" : hasData ? "#6706CE" : "#9CA3AF",
+                border: isActive ? "none" : `1px solid ${hasData ? "rgba(103,6,206,0.2)" : "#E5E7EB"}`,
                 borderRadius: 6, cursor: "pointer", letterSpacing: "0.02em",
                 fontWeight: isActive ? 600 : 400,
                 transition: "all 0.15s ease",
               }}>
                 {m}
-                {hasData && !isActive && <span style={{ marginLeft: 6, fontSize: 10, color: "#A351FB" }}>●</span>}
+                {hasData && !isActive && <span style={{ marginLeft: 6, fontSize: 10, color: "#6706CE" }}>●</span>}
               </button>
             );
           })}
@@ -183,19 +183,19 @@ export default function App() {
         {/* Active month panel */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
           {/* Input card */}
-          <div style={{ background: "#111827", border: "1px solid #1E2433", borderRadius: 10, padding: "1.25rem" }}>
-            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 500 }}>
+          <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem" }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>
               {MONTH_LABELS[activeMonth]?.toUpperCase()} · ACTUALS
             </div>
             {[
-              { field: "meetings", label: "Meetings completed", target: "target 20" },
-              { field: "sals", label: "SALs", target: "target 5" },
-              { field: "sqos", label: "SQOs this month", target: "target 2/mo · 6/qtr" },
+              { field: "meetings", label: "Meetings completed", target: "Quota: 20" },
+              { field: "sals", label: "SALs", target: "Quota: 5" },
+              { field: "sqos", label: "SQOs this month", target: "Quota: 2/mo · 6/qtr" },
             ].map(({ field, label, target }) => (
-              <div key={field} style={{ marginBottom: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                  <label style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400 }}>{label}</label>
-                  <span style={{ fontSize: 11, color: "#4B5068" }}>{target}</span>
+              <div key={field} style={{ marginBottom: 16 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                  <label style={{ fontSize: 14, color: "#111", fontWeight: 500 }}>{label}</label>
+                  <span style={{ fontSize: 12, color: "#6706CE", fontWeight: 500, background: "rgba(103,6,206,0.06)", padding: "2px 8px", borderRadius: 4 }}>{target}</span>
                 </div>
                 <input
                   type="number"
@@ -205,9 +205,9 @@ export default function App() {
                   placeholder="—"
                   style={{
                     width: "100%", padding: "9px 11px", fontSize: 16,
-                    fontFamily: "Inter, sans-serif", fontWeight: 500,
-                    background: "#0B0F1A", color: "#E2E4EB",
-                    border: "1px solid #1E2433", borderRadius: 6, outline: "none",
+                    fontFamily: "Ubuntu Mono, monospace", fontWeight: 500,
+                    background: "#F8F8FA", color: "#111",
+                    border: "1px solid #E5E7EB", borderRadius: 6, outline: "none",
                     transition: "border-color 0.15s, box-shadow 0.15s",
                   }}
                 />
@@ -222,7 +222,7 @@ export default function App() {
               }}>SAVE MONTH</button>
               <button onClick={() => handleClear(activeMonth)} style={{
                 padding: "10px 16px", fontSize: 13, fontFamily: "Inter, sans-serif",
-                background: "transparent", color: "#6B7280", border: "1px solid #1E2433",
+                background: "#fff", color: "#9CA3AF", border: "1px solid #E5E7EB",
                 borderRadius: 6, cursor: "pointer", letterSpacing: "0.02em",
                 transition: "all 0.15s",
               }}>CLEAR</button>
@@ -230,14 +230,14 @@ export default function App() {
           </div>
 
           {/* Results card */}
-          <div style={{ background: "#111827", border: "1px solid #1E2433", borderRadius: 10, padding: "1.25rem" }}>
-            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 500 }}>
+          <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem" }}>
+            <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>
               {MONTH_LABELS[activeMonth]?.toUpperCase()} · PAYOUT
             </div>
             {(() => {
               const d = data[activeMonth];
               if (!d || d.meetings === "") return (
-                <div style={{ color: "#3D4459", fontSize: 14, marginTop: "2rem", textAlign: "center" }}>
+                <div style={{ color: "#d4d4d8", fontSize: 14, marginTop: "2rem", textAlign: "center" }}>
                   Enter actuals and save to see payout
                 </div>
               );
@@ -255,27 +255,27 @@ export default function App() {
                   ].map(r => (
                     <div key={r.label} style={{ marginBottom: 16 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5 }}>
-                        <span style={{ fontSize: 13, color: "#9CA3AF" }}>{r.label}</span>
-                        <span style={{ fontSize: 20, fontWeight: 600, color: "#E2E4EB" }}>{fmt(r.earned)}</span>
+                        <span style={{ fontSize: 13, color: "#6B7280" }}>{r.label}</span>
+                        <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(r.earned)}</span>
                       </div>
-                      <div style={{ height: 4, background: "#1E2433", borderRadius: 2, marginBottom: 4 }}>
+                      <div style={{ height: 4, background: "#F3F4F6", borderRadius: 2, marginBottom: 4 }}>
                         <div style={{ height: "100%", width: `${Math.min(r.pct, 100)}%`, background: pctColor(r.pct), borderRadius: 2, transition: "width 0.3s" }} />
                       </div>
-                      <div style={{ fontSize: 12, color: "#4B5068" }}>{r.detail}</div>
+                      <div style={{ fontSize: 12, color: "#9CA3AF" }}>{r.detail}</div>
                     </div>
                   ))}
-                  <div style={{ borderTop: "1px solid #1E2433", paddingTop: 12, marginBottom: 12 }}>
+                  <div style={{ borderTop: "1px solid #F3F4F6", paddingTop: 12, marginBottom: 12 }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                      <span style={{ fontSize: 13, color: "#9CA3AF" }}>Monthly subtotal</span>
-                      <span style={{ fontSize: 22, fontWeight: 600, color: "#E2E4EB" }}>{fmt(monthTotal)}</span>
+                      <span style={{ fontSize: 13, color: "#6B7280" }}>Monthly subtotal</span>
+                      <span style={{ fontSize: 22, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(monthTotal)}</span>
                     </div>
                   </div>
                   {sqo && (
-                    <div style={{ background: "rgba(103,6,206,0.08)", border: "1px solid rgba(103,6,206,0.2)", borderRadius: 8, padding: "10px 12px" }}>
-                      <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 6, letterSpacing: "0.08em", fontWeight: 500 }}>{qLabel} SQO (QUARTERLY)</div>
+                    <div style={{ background: "rgba(103,6,206,0.04)", border: "1px solid rgba(103,6,206,0.12)", borderRadius: 8, padding: "10px 12px" }}>
+                      <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 6, letterSpacing: "0.08em", fontWeight: 500 }}>{qLabel} SQO (QUARTERLY)</div>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                        <span style={{ fontSize: 12, color: "#9CA3AF" }}>{Math.round(sqo.pct)}% of target (6) · {sqo.mult}x</span>
-                        <span style={{ fontSize: 20, fontWeight: 600, color: "#A351FB" }}>{fmt(sqo.earned)}</span>
+                        <span style={{ fontSize: 12, color: "#6B7280" }}>{Math.round(sqo.pct)}% of target (6) · {sqo.mult}x</span>
+                        <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE" }}>{fmt(sqo.earned)}</span>
                       </div>
                     </div>
                   )}
@@ -286,14 +286,14 @@ export default function App() {
         </div>
 
         {/* Year summary table */}
-        <div style={{ background: "#111827", border: "1px solid #1E2433", borderRadius: 10, padding: "1.25rem", marginTop: 8 }}>
-          <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#6B7280", marginBottom: "1rem", fontWeight: 500 }}>FULL YEAR SUMMARY</div>
+        <div style={{ background: "#fff", border: "1px solid #E5E7EB", borderRadius: 10, padding: "1.25rem", marginTop: 8 }}>
+          <div style={{ fontSize: 12, letterSpacing: "0.1em", color: "#9CA3AF", marginBottom: "1rem", fontWeight: 500 }}>FULL YEAR SUMMARY</div>
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, fontFamily: "Inter, sans-serif" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #1E2433" }}>
+                <tr style={{ borderBottom: "2px solid #F3F4F6" }}>
                   {["Month","Meetings","Attain","SALs","Attain","Monthly","SQO Qtr","Total","Annualized"].map((h,hi) => (
-                    <th key={h+hi} style={{ padding: "8px 8px", textAlign: "right", color: hi===8 ? "#A351FB" : "#6B7280", fontWeight: 500, letterSpacing: "0.05em", fontSize: 11 }}>{h}</th>
+                    <th key={h+hi} style={{ padding: "8px 8px", textAlign: "right", color: hi===8 ? "#6706CE" : "#9CA3AF", fontWeight: 500, letterSpacing: "0.05em", fontSize: 11 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -307,23 +307,23 @@ export default function App() {
                     const monthTotal = r ? r.meet.earned + r.sal.earned : null;
                     return (
                       <tr key={m} onClick={() => setActiveMonth(m)} style={{
-                        borderBottom: "1px solid #151B2B", cursor: "pointer",
-                        background: isActive ? "rgba(103,6,206,0.08)" : "transparent",
+                        borderBottom: "1px solid #F9FAFB", cursor: "pointer",
+                        background: isActive ? "rgba(103,6,206,0.04)" : "transparent",
                         transition: "background 0.15s",
                       }}>
-                        <td style={{ padding: "8px 8px", color: isActive ? "#fff" : "#9CA3AF", fontWeight: isActive ? 600 : 400 }}>{MONTH_LABELS[m]}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? "#E2E4EB" : "#2D3348" }}>{r ? d.meetings : "—"}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? pctColor(r.meet.pct) : "#2D3348", fontWeight: r ? 500 : 400 }}>{r ? `${Math.round(r.meet.pct)}%` : "—"}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? "#E2E4EB" : "#2D3348" }}>{r ? d.sals : "—"}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? pctColor(r.sal.pct) : "#2D3348", fontWeight: r ? 500 : 400 }}>{r ? `${Math.round(r.sal.pct)}%` : "—"}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? "#E2E4EB" : "#2D3348" }}>{r ? fmt(monthTotal) : "—"}</td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: sqo.earned > 0 ? "#A351FB" : "#2D3348" }}>
+                        <td style={{ padding: "8px 8px", color: isActive ? "#111" : "#6B7280", fontWeight: isActive ? 600 : 400 }}>{MONTH_LABELS[m]}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: r ? "#111" : "#E5E7EB" }}>{r ? d.meetings : "—"}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? pctColor(r.meet.pct) : "#E5E7EB", fontWeight: r ? 500 : 400 }}>{r ? `${Math.round(r.meet.pct)}%` : "—"}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: r ? "#111" : "#E5E7EB" }}>{r ? d.sals : "—"}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? pctColor(r.sal.pct) : "#E5E7EB", fontWeight: r ? 500 : 400 }}>{r ? `${Math.round(r.sal.pct)}%` : "—"}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: r ? "#111" : "#E5E7EB" }}>{r ? fmt(monthTotal) : "—"}</td>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: sqo.earned > 0 ? "#6706CE" : "#E5E7EB" }}>
                           {i === 0 ? (sqo.earned > 0 ? fmt(sqo.earned) : "—") : ""}
                         </td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? "#fff" : "#2D3348", fontWeight: r ? 600 : 400 }}>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: r ? "#111" : "#E5E7EB", fontWeight: r ? 600 : 400 }}>
                           {r ? fmt(monthTotal + (i === 0 ? sqo.earned : 0)) : "—"}
                         </td>
-                        <td style={{ padding: "8px 8px", textAlign: "right", color: r ? "#A351FB" : "#2D3348", fontWeight: r ? 600 : 400 }}>
+                        <td style={{ padding: "8px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: r ? "#6706CE" : "#E5E7EB", fontWeight: r ? 600 : 400 }}>
                           {r ? fmt(BASE_SALARY + (monthTotal * 12) + (sqo.earned * 4)) : "—"}
                         </td>
                       </tr>
@@ -333,12 +333,12 @@ export default function App() {
                 })}
               </tbody>
               <tfoot>
-                <tr style={{ borderTop: "1px solid #2D3348" }}>
-                  <td colSpan={5} style={{ padding: "10px 8px", fontSize: 12, color: "#6B7280", letterSpacing: "0.08em", fontWeight: 500 }}>TOTAL</td>
-                  <td style={{ padding: "10px 8px", textAlign: "right", color: "#E2E4EB", fontWeight: 600 }}>{totalMeet + totalSAL > 0 ? fmt(totalMeet + totalSAL) : "—"}</td>
-                  <td style={{ padding: "10px 8px", textAlign: "right", color: "#A351FB", fontWeight: 600 }}>{totalSQO > 0 ? fmt(totalSQO) : "—"}</td>
-                  <td style={{ padding: "10px 8px", textAlign: "right", fontSize: 16, fontWeight: 800, color: grandTotal > 0 ? "#A351FB" : "#2D3348" }}>{grandTotal > 0 ? fmt(grandTotal) : "—"}</td>
-                  <td style={{ padding: "10px 8px", textAlign: "right", fontSize: 14, fontWeight: 800, color: grandTotal > 0 ? "#A351FB" : "#2D3348" }}>{grandTotal > 0 ? fmt(BASE_SALARY + grandTotal) : "—"}</td>
+                <tr style={{ borderTop: "2px solid #F3F4F6" }}>
+                  <td colSpan={5} style={{ padding: "10px 8px", fontSize: 12, color: "#9CA3AF", letterSpacing: "0.08em", fontWeight: 500 }}>TOTAL</td>
+                  <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: "#111", fontWeight: 600 }}>{totalMeet + totalSAL > 0 ? fmt(totalMeet + totalSAL) : "—"}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", color: "#6706CE", fontWeight: 600 }}>{totalSQO > 0 ? fmt(totalSQO) : "—"}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", fontSize: 16, fontWeight: 800, color: grandTotal > 0 ? "#6706CE" : "#E5E7EB" }}>{grandTotal > 0 ? fmt(grandTotal) : "—"}</td>
+                  <td style={{ padding: "10px 8px", textAlign: "right", fontFamily: "Ubuntu Mono, monospace", fontSize: 14, fontWeight: 800, color: grandTotal > 0 ? "#6706CE" : "#E5E7EB" }}>{grandTotal > 0 ? fmt(BASE_SALARY + grandTotal) : "—"}</td>
                 </tr>
               </tfoot>
             </table>
