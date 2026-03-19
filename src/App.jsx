@@ -59,6 +59,46 @@ function pctColor(p) {
 
 const EMPTY_MONTH = { meetings: "", sals: "", sqos: "" };
 
+const PAY_TABLES = {
+  Meetings: {
+    title: "Meetings Payout Table",
+    subtitle: "Monthly quota: 20 meetings",
+    headers: ["Attainment", "Meetings", "Rate per Meeting"],
+    rows: [
+      { cells: ["0–50%", "0–10", "$35"], highlight: false },
+      { cells: ["51–75%", "11–15", "$55"], highlight: false },
+      { cells: ["76–100%", "16–20", "$75"], highlight: true },
+      { cells: ["101–125%", "21–25", "$85"], highlight: false },
+      { cells: ["126%+", "26+", "$95"], highlight: false },
+    ],
+  },
+  SALs: {
+    title: "SALs Payout Table",
+    subtitle: "Monthly quota: 5 SALs",
+    headers: ["Attainment", "SALs", "Monthly Payout"],
+    rows: [
+      { cells: ["0–39%", "0–1", "$0"], highlight: false },
+      { cells: ["40–80%", "2–4", "$875"], highlight: false },
+      { cells: ["81–100%", "5", "$1,250"], highlight: true },
+      { cells: ["101–120%", "6", "$1,750"], highlight: false },
+      { cells: ["121–160%", "7–8", "$2,200"], highlight: false },
+      { cells: ["161%+", "9+", "$2,500"], highlight: false },
+    ],
+  },
+  SQOs: {
+    title: "SQOs Payout Table",
+    subtitle: "Quarterly quota: 6 SQOs · Base payout: $2,250",
+    headers: ["Attainment", "SQOs (Qtr)", "Multiplier", "Quarterly Payout"],
+    rows: [
+      { cells: ["0–39%", "0–2", "0x", "$0"], highlight: false },
+      { cells: ["40–60%", "3", "0.75x", "$1,688"], highlight: false },
+      { cells: ["61–80%", "4–5", "1.0x", "$2,250"], highlight: false },
+      { cells: ["81–90%", "5", "1.15x", "$2,588"], highlight: true },
+      { cells: ["91%+", "6+", "1.3x", "$2,925"], highlight: false },
+    ],
+  },
+};
+
 export default function App() {
   const [data, setData] = useState(() => {
     try {
@@ -68,6 +108,7 @@ export default function App() {
   });
   const [activeMonth, setActiveMonth] = useState("Feb");
   const [editing, setEditing] = useState({});
+  const [showPayTable, setShowPayTable] = useState(null);
 
   useEffect(() => {
     try { localStorage.setItem("sdr_fy27_data", JSON.stringify(data)); } catch {}
@@ -257,16 +298,18 @@ export default function App() {
                   {[
                     { label: "Meetings", earned: meet.earned, detail: `${Math.round(meet.pct)}% · $${meet.rate}/meeting`, pct: meet.pct },
                     { label: "SALs", earned: sal.earned, detail: `${Math.round(sal.pct)}% attainment`, pct: sal.pct },
+                    { label: "SQOs", earned: sqo ? sqo.earned : 0, detail: `${Math.round(sqo ? sqo.pct : 0)}% attainment · quarterly`, pct: sqo ? sqo.pct : 0 },
                   ].map(r => (
                     <div key={r.label} style={{ marginBottom: 16 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 5 }}>
-                        <span style={{ fontSize: 13, color: "#6B7280" }}>{r.label}</span>
+                        <span onClick={() => setShowPayTable(r.label)} style={{ fontSize: 13, color: "#6706CE", cursor: "pointer", textDecoration: "underline", textDecorationStyle: "dotted", textUnderlineOffset: 3 }}>{r.label}</span>
                         <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#111" }}>{fmt(r.earned)}</span>
                       </div>
                       <div style={{ height: 4, background: "#F3F4F6", borderRadius: 2, marginBottom: 4 }}>
                         <div style={{ height: "100%", width: `${Math.min(r.pct, 100)}%`, background: pctColor(r.pct), borderRadius: 2, transition: "width 0.3s" }} />
                       </div>
                       <div style={{ fontSize: 12, color: "#6B7280" }}>{r.detail}</div>
+                      {r.note && <div style={{ fontSize: 11, color: "#6B7280", fontStyle: "italic", marginTop: 2 }}>{r.note}</div>}
                     </div>
                   ))}
                   <div style={{ borderTop: "1px solid #F3F4F6", paddingTop: 12, marginBottom: 12 }}>
@@ -284,15 +327,6 @@ export default function App() {
                       {fmt(BASE_SALARY)} base + {fmt(monthTotal * 12)} variable + {fmt(sqo ? sqo.earned * 4 : 0)} SQO
                     </div>
                   </div>
-                  {sqo && (
-                    <div style={{ background: "rgba(103,6,206,0.04)", border: "1px solid rgba(103,6,206,0.12)", borderRadius: 8, padding: "10px 12px" }}>
-                      <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 6, letterSpacing: "0.08em", fontWeight: 500 }}>{qLabel} SQO (QUARTERLY)</div>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                        <span style={{ fontSize: 12, color: "#6B7280" }}>{Math.round(sqo.pct)}% of target (6) · {sqo.mult}x</span>
-                        <span style={{ fontSize: 20, fontWeight: 600, fontFamily: "Ubuntu Mono, monospace", color: "#6706CE" }}>{fmt(sqo.earned)}</span>
-                      </div>
-                    </div>
-                  )}
                 </>
               );
             })()}
@@ -359,6 +393,53 @@ export default function App() {
           </div>
         </div>
       </div>
+
+      {/* Pay Table Overlay */}
+      {showPayTable && PAY_TABLES[showPayTable] && (
+        <div onClick={() => setShowPayTable(null)} style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", display: "flex",
+          alignItems: "center", justifyContent: "center", zIndex: 1000, backdropFilter: "blur(4px)",
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: "#fff", borderRadius: 12, padding: "1.5rem", maxWidth: 480, width: "90%",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.15)", border: "1px solid #E5E7EB",
+          }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
+              <div>
+                <div style={{ fontSize: 18, fontWeight: 700, color: "#111" }}>{PAY_TABLES[showPayTable].title}</div>
+                <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>{PAY_TABLES[showPayTable].subtitle}</div>
+              </div>
+              <button onClick={() => setShowPayTable(null)} style={{
+                background: "none", border: "none", fontSize: 20, color: "#6B7280", cursor: "pointer", padding: "0 4px", lineHeight: 1,
+              }}>&times;</button>
+            </div>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontFamily: "Inter, sans-serif", fontSize: 13 }}>
+              <thead>
+                <tr style={{ borderBottom: "2px solid #F3F4F6" }}>
+                  {PAY_TABLES[showPayTable].headers.map(h => (
+                    <th key={h} style={{ padding: "8px 10px", textAlign: "left", color: "#6B7280", fontWeight: 600, fontSize: 11, letterSpacing: "0.03em" }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {PAY_TABLES[showPayTable].rows.map((row, i) => (
+                  <tr key={i} style={{
+                    borderBottom: "1px solid #F9FAFB",
+                    background: row.highlight ? "rgba(103,6,206,0.04)" : "transparent",
+                  }}>
+                    {row.cells.map((cell, j) => (
+                      <td key={j} style={{
+                        padding: "9px 10px", fontFamily: j === 0 ? "Inter, sans-serif" : "Ubuntu Mono, monospace",
+                        color: row.highlight ? "#6706CE" : "#374151", fontWeight: row.highlight ? 600 : 400,
+                      }}>{cell}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
